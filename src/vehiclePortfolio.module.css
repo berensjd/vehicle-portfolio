@@ -1,0 +1,85 @@
+:root {
+  --bordercolour: #b3b3b2;
+  font-family: Tahoma, Verdana, serif;
+}
+.container {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-flow: row wrap;
+  -webkit-flex-flow: row wrap;
+}
+.vehicleBox {
+  background: transparent;
+  border-style: solid;
+  border-width: 0px;
+  border-color: var(--bordercolour);
+  padding: 0px;
+  align-items: left;
+  flex: 0 0 482px;
+  margin: 0px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: flex-start;
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+}
+.vehicleImage {
+  background: trans;
+  border-style: solid;
+  border-width: 0px;
+  padding: 0px;
+  width: 482px;
+  flex: 0 0 482px;
+}
+.vehicleDetails {
+  background: trans;
+  border-style: solid;
+  border-color: var(--bordercolour);
+  border-width: 0.1px;
+  padding: 0px;
+  flex: 0 0 482px;
+  height: 150px;
+  color: #000000;
+  font-weight: normal;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+}
+
+.vehicleTextHeading {
+  border-top: 1.5px solid #000000;
+  border-bottom: 1.5px solid #000000;
+  font-weight: normal;
+  font-size: 2em;
+  padding: 2px;
+  margin-bottom: 10px;
+}
+
+.vehicleText {
+  margin: 5px;
+  font-size: 0.9em;
+}
+
+.loading {
+  background: transparent;
+  border-style: solid;
+  border-width: 0px;
+  border-color: var(--bordercolour);
+  padding: 0px;
+  align-items: center;
+  flex: 0 0 100px;
+  margin: 0px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  justify-content: center;
+}
