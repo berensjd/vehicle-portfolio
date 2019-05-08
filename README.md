@@ -18,7 +18,7 @@ _Static files were configured to be served from folder "./dist"_<br>
 
 ### `app.use(Express.static(path.join(__dirname, "./public")));`
 
-## Custom Hook **useFechVehicles()** - Pending Issue requires further investigation
+#### Custom Hook **useFechVehicles()** - Pending Issue requires further investigation
 
 **Summary use case:** Where the previous local state is read within **useEffect** so that it can be enhanced with newly<br>
 arrived data from the server.
