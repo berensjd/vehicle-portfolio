@@ -45,7 +45,7 @@ Adding **vehiclesData** as a dependancy will cause an infinite loop as the custo
 It is thought that an alterative pattern is required so that _eslint_ does not detect any dependancy issue within the custom<br>
 hook.
 
-**In the meantime this app demonstrates the operation of a custom hook useFechVehicles() as deployed by functional component VehicleList**
+This app demonstrates the operation of a custom hook useFechVehicles() as deployed by functional component VehicleList
 
 ### `npm start`
 
