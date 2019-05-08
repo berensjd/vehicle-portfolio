@@ -1,6 +1,10 @@
 :root {
   --bordercolour: #b3b3b2;
   font-family: Tahoma, Verdana, serif;
+  --defaultImageWidth: 470px;
+  --defaultImageHeight: 246px;
+  --phoneWidth: 320px;
+  --phoneImageHeight: calc((246 / 470) * var(--phoneWidth));
 }
 .container {
   display: -webkit-box;
@@ -18,7 +22,7 @@
   border-color: var(--bordercolour);
   padding: 0px;
   align-items: left;
-  flex: 0 0 482px;
+  flex: 0 0 var(--defaultImageWidth);
   margin: 0px;
   display: -webkit-box;
   display: -moz-box;
@@ -34,8 +38,9 @@
   border-style: solid;
   border-width: 0px;
   padding: 0px;
-  width: 482px;
-  flex: 0 0 482px;
+  width: var(--defaultImageWidth);
+  height: var(--defaultImageHeight);
+  flex: 0 0 var(--defaultImageWidth);
 }
 .vehicleDetails {
   background: trans;
@@ -43,7 +48,7 @@
   border-color: var(--bordercolour);
   border-width: 0.1px;
   padding: 0px;
-  flex: 0 0 482px;
+  flex: 0 0 var(--defaultImageWidth);
   height: 150px;
   color: #000000;
   font-weight: normal;
@@ -82,4 +87,32 @@
   display: -webkit-flex;
   display: flex;
   justify-content: center;
+}
+
+@media screen and (max-width: 320px) {
+  .vehicleBox {
+    flex: 0 0 var(--phoneWidth);
+  }
+  .vehicleImage {
+    width: var(--phoneWidth);
+    height: var(--phoneImageHeight);
+    flex: 0 0 var(--phoneWidth);
+  }
+
+  .vehicleDetails {
+    flex: 0 0 var(--phoneWidth);
+  }
+
+  .vehicleTextHeading {
+    font-size: 0.8em;
+  }
+
+  .vehicleText {
+    margin: 5px;
+    font-size: 0.6em;
+  }
+
+  .vehicleDetails {
+    height: 100px;
+  }
 }
