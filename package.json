@@ -3,18 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@types/jest": "^24.0.12",
     "axios": "^0.18.0",
     "lodash": "^4.17.11",
     "node-sass": "^4.12.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "3.0.0",
+    "react-scripts": "^3.0.1",
     "react-toastify": "^5.1.0"
   },
   "scripts": {
     "start": "react-scripts start .env.development",
     "build": "react-scripts build",
     "test": "react-scripts test .env.development",
+    "cypress:open": "cypress open",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -33,6 +35,7 @@
     ]
   },
   "devDependencies": {
-    "@types/jest": "^24.0.12"
+    "cypress": "^3.2.0",
+    "eslint-plugin-cypress": "^2.2.1"
   }
 }

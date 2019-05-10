@@ -29,15 +29,18 @@ export default url => {
 
     async function fetchVehicleDetail() {
       let result;
-      console.log("Fetching vehicle detail from API " + url);
+
       try {
         result = await getVehicles(url);
       } catch (e) {
         if (e && e.response && e.response.data) toast.error(e.response.data);
         return;
       }
+
+      //console.log("Fetched vehicle detail from API ref" + url);
+
       let vehicles = [...vehiclesData];
-      const index = _.findIndex(vehicles, { url: url });
+      const index = _.findIndex(vehicles, { url });
       vehicles[index].detail = result.data;
       setVehiclesData(vehicles);
     }
@@ -45,6 +48,7 @@ export default url => {
     if (url) fetchVehicleDetail();
 
     if (!vehiclesData.length) fetchVehicles();
+    return () => {};
   }, [url]);
   return { vehiclesData, loading };
 };

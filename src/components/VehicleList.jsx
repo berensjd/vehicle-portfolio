@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useFechVehicles from "../hooks/useFetchVehicles";
+import useWindowWidth from "../hooks/useWindowWidth";
 import VehicleNarrative from "./vehiclePortfolioNarrative";
 import VehicleImage from "./vehicleImage";
 import styles from "../vehiclePortfolio.module.css";
@@ -9,40 +10,61 @@ export default props => {
 
   /**Custom Hooks */
   const { vehiclesData, loading } = useFechVehicles(url);
+  const width = useWindowWidth();
 
   /**Events */
   function handleVehicleHasLoaded(e) {
     if (!loading) setUrl(e.currentTarget.id);
   }
 
+  /**Conditional Rendering */
+  function renderVehicles() {
+    return vehiclesData.length ? (
+      <div className={styles.container}>
+        {vehiclesData.map(vehicle => (
+          <div key={vehicle.id} className={styles.vehicleBox}>
+            {renderComponentVehicleImage(vehicle)}
+            {renderComponentVehicleNarrative(vehicle)}
+          </div>
+        ))}
+      </div>
+    ) : (
+      renderException("No Vehicles Found")
+    );
+  }
+
   /**Render Components */
-  return loading ? (
-    <div className={styles.loading}>
-      <h2>...Loading</h2>
-    </div>
-  ) : vehiclesData.length ? (
-    <div className={styles.container}>
-      {vehiclesData.map(vehicle => (
-        <div key={vehicle.id} className={styles.vehicleBox}>
-          <VehicleImage
-            imageSource={`${process.env.REACT_APP_STATIC}${
-              vehicle.media[0].url
-            }`}
-            vehicleTitle={vehicle.vehicleTitle}
-            handleVehicleHasLoaded={handleVehicleHasLoaded}
-            id={vehicle.url}
-          />
-          <VehicleNarrative
-            vehicleTitle={vehicle.vehicleTitle}
-            vehiclePrice={vehicle.detail.price}
-            vehicleDescription={vehicle.detail.description}
-          />
-        </div>
-      ))}
-    </div>
-  ) : (
-    <div className={styles.loading}>
-      <h2>Nothing to display</h2>
-    </div>
-  );
+  function renderComponentVehicleNarrative({ vehicleTitle, detail }) {
+    const { price, description } = detail;
+    return (
+      <VehicleNarrative
+        vehicleTitle={vehicleTitle}
+        vehiclePrice={price}
+        vehicleDescription={description}
+      />
+    );
+  }
+
+  function renderComponentVehicleImage({ media, vehicleTitle, url }) {
+    return (
+      <VehicleImage
+        imageSource={`${process.env.REACT_APP_STATIC}${media[0].url}`}
+        vehicleTitle={vehicleTitle}
+        handleVehicleHasLoaded={handleVehicleHasLoaded}
+        id={url}
+      />
+    );
+  }
+
+  function renderException(message) {
+    return (
+      <div className={styles.loading}>
+        <h2>{message}</h2>
+      </div>
+    );
+  }
+
+  /**Final Render */
+  console.log(width);
+  return loading ? renderException("...Loading") : renderVehicles();
 };
