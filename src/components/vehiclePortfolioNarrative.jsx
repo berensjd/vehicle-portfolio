@@ -2,6 +2,7 @@ import React from "react";
 import styles from "../vehiclePortfolio.module.css";
 
 export default ({ vehicleTitle, vehiclePrice, vehicleDescription }) => {
+  //console.log("Rendering VehicleNarrative");
   return (
     <div className={styles.vehicleDetails}>
       <div>

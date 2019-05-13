@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import useFechVehicles from "../hooks/useFetchVehicles";
-import useWindowWidth from "../hooks/useWindowWidth";
+import useFetchVehicles from "../hooks/useFetchVehicles";
+//import useWindowWidth from "../hooks/useWindowWidth";
 import VehicleNarrative from "./vehiclePortfolioNarrative";
 import VehicleImage from "./vehicleImage";
 import styles from "../vehiclePortfolio.module.css";
@@ -9,11 +9,12 @@ export default props => {
   const [url, setUrl] = useState(null);
 
   /**Custom Hooks */
-  const { vehiclesData, loading } = useFechVehicles(url);
-  const width = useWindowWidth();
+  const { vehiclesData, loading } = useFetchVehicles(url);
+  // const width = useWindowWidth();
 
   /**Events */
   function handleVehicleHasLoaded(e) {
+    console.log("handleVehicleHasLoaded " + e.currentTarget.id);
     if (!loading) setUrl(e.currentTarget.id);
   }
 
@@ -65,6 +66,6 @@ export default props => {
   }
 
   /**Final Render */
-  console.log(width);
+  console.log("Rendering VehicleList");
   return loading ? renderException("...Loading") : renderVehicles();
 };

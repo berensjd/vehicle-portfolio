@@ -37,12 +37,15 @@ export default url => {
         return;
       }
 
-      //console.log("Fetched vehicle detail from API ref" + url);
+      console.log("Fetched vehicle detail from API ref" + url);
 
       let vehicles = [...vehiclesData];
       const index = _.findIndex(vehicles, { url });
-      vehicles[index].detail = result.data;
-      setVehiclesData(vehicles);
+
+      if (vehicles[index] && !_.isEqual(vehicles[index].detail, result.data)) {
+        vehicles[index].detail = result.data;
+        setVehiclesData(vehicles);
+      }
     }
 
     if (url) fetchVehicleDetail();
