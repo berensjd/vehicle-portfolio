@@ -1,67 +1,13 @@
-import React, { useReducer } from "react";
+import React from "react";
 
-import getVehicles from "../api/getVehicles";
-import addLoadingDetail from "../dataProcessing/vehiclesAddLoadingDetail";
-
-import vehiclesReducer from "../reducers/vehiclesReducer";
+import useFetchVehicles from "../hooks/useFetchVehicles";
 
 import VehicleNarrative from "./vehiclePortfolioNarrative";
 import VehicleImage from "./vehicleImage";
 import styles from "../vehiclePortfolio.module.css";
 
-import { toast } from "react-toastify";
-
-const initialState = { loading: true, vehiclesData: [] };
-
-export default () => {
-  const [currentState, dispatch] = useReducer(vehiclesReducer, initialState);
-
-  /**
-   * Fetch portfolio of vehicles
-   * Update State
-   */
-  async function fetchVehicles() {
-    const vehicles_API_Endpoint = "api/vehicle";
-    let result;
-    console.log("Fetching Vehicles from  API");
-    try {
-      result = await getVehicles(vehicles_API_Endpoint);
-    } catch (e) {
-      if (e && e.response && e.response.data) toast.error(e.response.data);
-      return;
-    }
-
-    const vehiclesData = addLoadingDetail(result.data.vehicles);
-    const loading = false;
-
-    dispatch({
-      type: "INITIALIZE_VEHICLES",
-      payload: { loading, vehiclesData }
-    });
-
-    for (let current of vehiclesData) fetchVehicleDetail(current.url);
-  }
-
-  /**
-   * Fetch the detailed information for the current vehicle
-   * Update the state
-   */
-  async function fetchVehicleDetail(url) {
-    let result;
-
-    try {
-      console.log(`Fetching vehicle detail from API ref - ${url}`);
-      result = await getVehicles(url);
-    } catch (e) {
-      if (e && e.response && e.response.data) toast.error(e.response.data);
-      return;
-    }
-
-    const vehicleDetail = result.data;
-    dispatch({ type: "ADD_VEHICLE_DETAIL", payload: { vehicleDetail, url } });
-  }
-
-  if (currentState.loading) fetchVehicles();
+export default props => {
+  const { currentState, dispatch } = useFetchVehicles();
 
   /**Conditional Rendering */
   function renderVehicles() {
@@ -70,7 +16,7 @@ export default () => {
       <div className={styles.container}>
         {vehiclesData.map(vehicle => (
           <div key={vehicle.id} className={styles.vehicleBox}>
-            {renderComponentVehicleImage(vehicle)}
+            {renderComponentVehicleImage(vehicle, dispatch)}
             {renderComponentVehicleNarrative(vehicle)}
           </div>
         ))}
@@ -81,22 +27,26 @@ export default () => {
   }
 
   /**Render Components */
-  function renderComponentVehicleNarrative({ vehicleTitle, detail }) {
+  function renderComponentVehicleNarrative({ vehicleTitle, count, detail }) {
     const { price, description } = detail;
     return (
       <VehicleNarrative
         vehicleTitle={vehicleTitle}
         vehiclePrice={price}
         vehicleDescription={description}
+        count={count}
       />
     );
   }
 
-  function renderComponentVehicleImage({ media, vehicleTitle, url }) {
+  function renderComponentVehicleImage({ media, vehicleTitle, url }, dispatch) {
     return (
       <VehicleImage
         imageSource={`${process.env.REACT_APP_STATIC}${media[0].url}`}
         vehicleTitle={vehicleTitle}
+        onClick={() =>
+          dispatch({ type: "COUNT_IMAGE_CLICKS", payload: { url } })
+        }
         id={url}
       />
     );

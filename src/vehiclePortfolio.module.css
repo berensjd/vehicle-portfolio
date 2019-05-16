@@ -89,6 +89,13 @@
   justify-content: center;
 }
 
+.badge {
+  background: yellowgreen;
+  width: 15px;
+  height: 15px;
+  border-radius: 2px;
+  font-size: 0.8em;
+}
 @media screen and (max-width: 320px) {
   .vehicleBox {
     flex: 0 0 var(--phoneWidth);

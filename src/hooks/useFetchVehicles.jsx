@@ -1,57 +1,67 @@
-import { useState, useEffect } from "react";
+import { useReducer } from "react";
+
 import getVehicles from "../api/getVehicles";
 import addLoadingDetail from "../dataProcessing/vehiclesAddLoadingDetail";
+
+import vehiclesReducer from "../reducers/vehiclesReducer";
+
 import { toast } from "react-toastify";
-import _ from "lodash";
 
-export default url => {
-  const vehicles_API_Endpoint = "api/vehicle";
-  const [vehiclesData, setVehiclesData] = useState([]);
-  const [loading, setLoading] = useState(true);
+const initialState = { loading: true, vehiclesData: [] };
 
-  useEffect(() => {
-    async function fetchVehicles() {
-      setLoading(true);
-      let result;
-      console.log("Fetching Vehicles from  API");
-      try {
-        result = await getVehicles(vehicles_API_Endpoint);
-      } catch (e) {
-        if (e && e.response && e.response.data) toast.error(e.response.data);
-        return;
-      }
+const INITIALIZE_VEHICLES = "INITIALIZE_VEHICLES";
+const ADD_VEHICLE_DETAIL = "ADD_VEHICLE_DETAIL";
 
-      const vehicles = addLoadingDetail(result.data.vehicles);
+const vehicles_API_Endpoint = "api/vehicle";
 
-      setVehiclesData(vehicles);
-      setLoading(false);
+export default () => {
+  const [currentState, dispatch] = useReducer(vehiclesReducer, initialState);
+
+  /**
+   * Fetch portfolio of vehicles
+   * Update State
+   */
+  async function fetchVehicles() {
+    let result;
+    console.log("Fetching Vehicles from  API");
+    try {
+      result = await getVehicles(vehicles_API_Endpoint);
+    } catch (e) {
+      if (e && e.response && e.response.data) toast.error(e.response.data);
+      return;
     }
 
-    async function fetchVehicleDetail() {
-      let result;
+    const vehiclesData = addLoadingDetail(result.data.vehicles);
+    const loading = false;
 
-      try {
-        result = await getVehicles(url);
-      } catch (e) {
-        if (e && e.response && e.response.data) toast.error(e.response.data);
-        return;
-      }
+    dispatch({
+      type: INITIALIZE_VEHICLES,
+      payload: { loading, vehiclesData }
+    });
 
-      console.log("Fetched vehicle detail from API ref" + url);
+    for (let current of vehiclesData) fetchVehicleDetail(current.url);
+  }
 
-      let vehicles = [...vehiclesData];
-      const index = _.findIndex(vehicles, { url });
+  /**
+   * Fetch the detailed information for the current vehicle
+   * Update the state
+   */
+  async function fetchVehicleDetail(url) {
+    let result;
 
-      if (vehicles[index] && !_.isEqual(vehicles[index].detail, result.data)) {
-        vehicles[index].detail = result.data;
-        setVehiclesData(vehicles);
-      }
+    try {
+      console.log(`Fetching vehicle detail from API ref - ${url}`);
+      result = await getVehicles(url);
+    } catch (e) {
+      if (e && e.response && e.response.data) toast.error(e.response.data);
+      return;
     }
 
-    if (url) fetchVehicleDetail();
+    const vehicleDetail = result.data;
+    dispatch({ type: ADD_VEHICLE_DETAIL, payload: { vehicleDetail, url } });
+  }
 
-    if (!vehiclesData.length) fetchVehicles();
-    return () => {};
-  }, [url]);
-  return { vehiclesData, loading };
+  if (currentState.loading) fetchVehicles();
+
+  return { currentState, dispatch };
 };

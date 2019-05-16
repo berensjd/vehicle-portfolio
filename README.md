@@ -18,9 +18,15 @@ _Static files were configured to be served from folder "./dist"_<br>
 
 ### `app.use(Express.static(path.join(__dirname, "./public")));`
 
-#### Deployment of Hook - useReducer
+#### Deployment of a custom hook - useFetchVehicles and further hook useReducer
 
-This app demonstrates the operation of hook useReducer as deployed by functional component VehicleList
+This app demonstrates the operation of custom hoook _useFetchVehicles_ <br>
+Within this hook it builds state via _useReducer_ as an alternative to useState. <br>
+This is the preferred method as _state_ is augmented via further API calls.<br>
+
+For purely demo purposes the reducer also deals with a client side action<br>
+**a click on the vehicle image**. All actions and their payload are serviced via
+the reducer so that _state_ is maintained. Updated state is displayed via the counter for each vehicle.
 
 ### `npm start`
 
