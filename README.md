@@ -18,15 +18,21 @@ _Static files were configured to be served from folder "./dist"_<br>
 
 ### `app.use(Express.static(path.join(__dirname, "./public")));`
 
-#### Deployment of a custom hook - useFetchVehicles and further hook useReducer
+#### Deployment of a custom hook - useFetchVehicles and further hooks useReducer, useContext
 
-This app demonstrates the operation of custom hoook _useFetchVehicles_ <br>
+This app demonstrates the operation of custom hook _useFetchVehicles_ <br>
 Within this hook it builds state via _useReducer_ as an alternative to useState. <br>
 This is the preferred method as _state_ is augmented via further API calls.<br>
 
 For purely demo purposes the reducer also deals with a client side action<br>
-**a click on the vehicle image**. All actions and their payload are serviced via
+**a click on the vehicle image**. All actions and their payload are serviced via<br>
 the reducer so that _state_ is maintained. Updated state is displayed via the counter for each vehicle.
+
+The app also demos the _useContext_ hook<br>
+_state_ and _dispatch_ are feed into the context provider to be consumed by the child components<br>
+
+React.memo has been deployed to help make things more efficient by not performing any uneccessary component re-renders<br>
+The _useMemo_ hook is also used to prevent the recreation of the context value on every re-render.
 
 ### `npm start`
 

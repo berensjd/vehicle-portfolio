@@ -61,6 +61,7 @@ export default () => {
     dispatch({ type: ADD_VEHICLE_DETAIL, payload: { vehicleDetail, url } });
   }
 
+  console.log("useFetchVehicles");
   if (currentState.loading) fetchVehicles();
 
   return { currentState, dispatch };
