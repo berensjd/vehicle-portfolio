@@ -1,7 +1,6 @@
 import { useReducer } from "react";
 
 import getVehicles from "../api/getVehicles";
-import addLoadingDetail from "../dataProcessing/vehiclesAddLoadingDetail";
 
 import vehiclesReducer, {
   INITIALIZE_VEHICLES,
@@ -31,15 +30,14 @@ export default () => {
       return;
     }
 
-    const vehiclesData = addLoadingDetail(result.data.vehicles);
-    const loading = false;
+    const { vehicles } = result.data;
 
     dispatch({
       type: INITIALIZE_VEHICLES,
-      payload: { loading, vehiclesData }
+      payload: { vehicles }
     });
 
-    for (let current of vehiclesData) fetchVehicleDetail(current.url);
+    for (let current of vehicles) fetchVehicleDetail(current.url);
   }
 
   /**

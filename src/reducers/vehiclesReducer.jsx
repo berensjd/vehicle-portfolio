@@ -1,5 +1,7 @@
 import _ from "lodash";
 
+import addLoadingDetail from "../dataProcessing/vehiclesAddLoadingDetail";
+
 export const INITIALIZE_VEHICLES = "INITIALIZE_VEHICLES";
 export const ADD_VEHICLE_DETAIL = "ADD_VEHICLE_DETAIL";
 export const COUNT_IMAGE_CLICKS = "COUNT_IMAGE_CLICKS";
@@ -8,9 +10,10 @@ export default (state, action) => {
   switch (action.type) {
     case INITIALIZE_VEHICLES: {
       console.log("Adding base vehicle data to state");
+      const vehiclesData = addLoadingDetail(action.payload.vehicles);
       return {
-        loading: action.payload.loading,
-        vehiclesData: action.payload.vehiclesData
+        loading: false,
+        vehiclesData
       };
     }
 
