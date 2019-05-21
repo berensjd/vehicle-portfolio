@@ -3,7 +3,6 @@ import styles from "../vehiclePortfolio.module.css";
 
 export default memo(
   ({ vehicleTitle, count, vehiclePrice, vehicleDescription }) => {
-    console.log("render narrative  " + vehicleTitle);
     return (
       <div className={styles.vehicleDetails}>
         <div>

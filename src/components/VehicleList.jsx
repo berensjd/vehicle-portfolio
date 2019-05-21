@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
+import React from "react";
 
 import useFetchVehicles from "../hooks/useFetchVehicles";
-import Context from "../contexts/VehicleContext";
+import { ContextState, ContextDispatch } from "../contexts/VehicleContext";
 
 import Vehicles from "./Vehicles";
 
@@ -10,18 +10,15 @@ import styles from "../vehiclePortfolio.module.css";
 export default props => {
   const { currentState, dispatch } = useFetchVehicles();
 
-  const value = useMemo(() => {
-    const { vehiclesData } = currentState;
-    return { vehiclesData, dispatch };
-  }, [currentState, dispatch]);
-
   /**Conditional Rendering */
   function renderVehicles() {
     const { vehiclesData } = currentState;
     return vehiclesData.length ? (
-      <Context.Provider value={value} {...props}>
-        <Vehicles />
-      </Context.Provider>
+      <ContextState.Provider value={vehiclesData} {...props}>
+        <ContextDispatch.Provider value={dispatch}>
+          <Vehicles />
+        </ContextDispatch.Provider>
+      </ContextState.Provider>
     ) : (
       renderException("No Vehicles Found")
     );

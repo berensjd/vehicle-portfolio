@@ -29,10 +29,9 @@ For purely demo purposes the reducer also deals with a client side action<br>
 the reducer so that _state_ is maintained. Updated state is displayed via the counter for each vehicle.
 
 The app also demos the _useContext_ hook<br>
-_state_ and _dispatch_ are feed into the context provider to be consumed by the child components<br>
+_state_ and _dispatch_ are feed into two seperate context providers to be consumed by their child components<br>
 
 React.memo has been deployed to help make things more efficient by not performing any uneccessary component re-renders<br>
-The _useMemo_ hook is also used to prevent the recreation of the context value on every re-render.
 
 ### `npm start`
 

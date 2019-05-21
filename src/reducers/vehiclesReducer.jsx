@@ -1,8 +1,8 @@
 import _ from "lodash";
 
-const INITIALIZE_VEHICLES = "INITIALIZE_VEHICLES";
-const ADD_VEHICLE_DETAIL = "ADD_VEHICLE_DETAIL";
-const COUNT_IMAGE_CLICKS = "COUNT_IMAGE_CLICKS";
+export const INITIALIZE_VEHICLES = "INITIALIZE_VEHICLES";
+export const ADD_VEHICLE_DETAIL = "ADD_VEHICLE_DETAIL";
+export const COUNT_IMAGE_CLICKS = "COUNT_IMAGE_CLICKS";
 
 export default (state, action) => {
   switch (action.type) {
@@ -13,27 +13,14 @@ export default (state, action) => {
         vehiclesData: action.payload.vehiclesData
       };
     }
+
     case ADD_VEHICLE_DETAIL: {
-      const { vehiclesData } = state;
-      const { url, vehicleDetail } = action.payload;
-      console.log(`Adding Vehicle detail to state - ${url}`);
-      const index = _.findIndex(vehiclesData, { url });
-      if (
-        vehiclesData[index] &&
-        !_.isEqual(vehiclesData[index].detail, vehicleDetail)
-      ) {
-        vehiclesData[index].detail = vehicleDetail;
-      }
+      const vehiclesData = addVehicleDetail(state, action);
       return { ...state, vehiclesData };
     }
-    case COUNT_IMAGE_CLICKS: {
-      const { vehiclesData } = state;
-      const { url } = action.payload;
-      const index = _.findIndex(vehiclesData, { url });
-      vehiclesData[index].count = vehiclesData[index].count
-        ? vehiclesData[index].count + 1
-        : 1;
 
+    case COUNT_IMAGE_CLICKS: {
+      const vehiclesData = countImageClicks(state, action);
       return { ...state, vehiclesData };
     }
 
@@ -41,3 +28,27 @@ export default (state, action) => {
       return state;
   }
 };
+
+function countImageClicks(state, action) {
+  const { vehiclesData } = state;
+  const { url } = action.payload;
+  const index = _.findIndex(vehiclesData, { url });
+  vehiclesData[index].count = vehiclesData[index].count
+    ? vehiclesData[index].count + 1
+    : 1;
+  return vehiclesData;
+}
+
+function addVehicleDetail(state, action) {
+  const { vehiclesData } = state;
+  const { url, vehicleDetail } = action.payload;
+  console.log(`Adding Vehicle detail to state - ${url}`);
+  const index = _.findIndex(vehiclesData, { url });
+  if (
+    vehiclesData[index] &&
+    !_.isEqual(vehiclesData[index].detail, vehicleDetail)
+  ) {
+    vehiclesData[index].detail = vehicleDetail;
+  }
+  return vehiclesData;
+}

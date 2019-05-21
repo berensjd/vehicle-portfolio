@@ -3,14 +3,14 @@ import { useReducer } from "react";
 import getVehicles from "../api/getVehicles";
 import addLoadingDetail from "../dataProcessing/vehiclesAddLoadingDetail";
 
-import vehiclesReducer from "../reducers/vehiclesReducer";
+import vehiclesReducer, {
+  INITIALIZE_VEHICLES,
+  ADD_VEHICLE_DETAIL
+} from "../reducers/vehiclesReducer";
 
 import { toast } from "react-toastify";
 
 const initialState = { loading: true, vehiclesData: [] };
-
-const INITIALIZE_VEHICLES = "INITIALIZE_VEHICLES";
-const ADD_VEHICLE_DETAIL = "ADD_VEHICLE_DETAIL";
 
 const vehicles_API_Endpoint = "api/vehicle";
 
@@ -61,7 +61,6 @@ export default () => {
     dispatch({ type: ADD_VEHICLE_DETAIL, payload: { vehicleDetail, url } });
   }
 
-  console.log("useFetchVehicles");
   if (currentState.loading) fetchVehicles();
 
   return { currentState, dispatch };

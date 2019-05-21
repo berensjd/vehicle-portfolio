@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import VehicleNarrative from "./vehiclePortfolioNarrative";
 import VehicleImage from "./vehicleImage";
-import Context from "../contexts/VehicleContext";
+import { ContextState } from "../contexts/VehicleContext";
 import styles from "../vehiclePortfolio.module.css";
 
 export default () => {
-  const { vehiclesData } = useContext(Context);
+  const vehiclesData = useContext(ContextState);
 
   /**Render Components */
   function renderComponentVehicleNarrative({ vehicleTitle, count, detail }) {

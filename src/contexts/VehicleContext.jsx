@@ -1,2 +1,3 @@
 import { createContext } from "react";
-export default createContext();
+export const ContextState = createContext();
+export const ContextDispatch = createContext();
